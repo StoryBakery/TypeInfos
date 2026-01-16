@@ -1,4 +1,4 @@
-name = "story_bakery/type_infos"
+name = "storybakery/type_infos"
 version = "0.1.0"
 license = "MIT"
 includes = [
