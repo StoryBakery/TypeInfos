@@ -20,7 +20,6 @@ local BINARY_NAN_F16 = 0b0111110000000001
 local TypeInfos = {}
 local typeInfosByName = {}
 
-
 --[=[
 	@class TypeInfo
 	단일 데이터 타입에 대한 메타데이터로 직렬화, 역직렬화, 검증 로직을 모두 포함합니다.
@@ -248,8 +247,7 @@ local function createTypeInfo(name: string, params: TypeInfoParams): TypeInfo
 	self.Default = params.Default
 
 	self.Serialize = params.Serialize or error(`Missing Serialize Function for TypeInfo "{name}"`)
-	self.Deserialize = params.Deserialize
-		or error(`Missing Deserialize Function for TypeInfo "{name}"`)
+	self.Deserialize = params.Deserialize or error(`Missing Deserialize Function for TypeInfo "{name}"`)
 
 	local size = params.Size
 	if typeof(size) == "number" then
@@ -305,7 +303,7 @@ end
 
 --#region Type Declaration
 --#tag typeInfosByName
-typeInfosByName['boolean'] = createTypeInfo("boolean", {
+typeInfosByName["boolean"] = createTypeInfo("boolean", {
 	Default = false,
 	IsLuauType = true,
 
@@ -320,7 +318,7 @@ typeInfosByName['boolean'] = createTypeInfo("boolean", {
 })
 
 --#tag string
-typeInfosByName['string'] = createTypeInfo("string", {
+typeInfosByName["string"] = createTypeInfo("string", {
 	Default = "",
 	IsLuauType = true,
 
@@ -340,7 +338,7 @@ typeInfosByName['string'] = createTypeInfo("string", {
 })
 
 --#tag number
-typeInfosByName['number'] = createTypeInfo("number", {
+typeInfosByName["number"] = createTypeInfo("number", {
 	Default = 0,
 	IsLuauType = true,
 
@@ -356,7 +354,7 @@ typeInfosByName['number'] = createTypeInfo("number", {
 })
 
 --#tag FloatList
-typeInfosByName['FloatList'] = createTypeInfo("FloatList", {
+typeInfosByName["FloatList"] = createTypeInfo("FloatList", {
 	Default = {},
 
 	Size = "Undefined",
@@ -404,7 +402,7 @@ typeInfosByName['FloatList'] = createTypeInfo("FloatList", {
 })
 
 --#tag float16
-typeInfosByName['float16'] = createTypeInfo("float16", {
+typeInfosByName["float16"] = createTypeInfo("float16", {
 	Default = 0,
 
 	Size = 2,
@@ -449,7 +447,7 @@ typeInfosByName['float16'] = createTypeInfo("float16", {
 })
 
 --#tag float32
-typeInfosByName['float32'] = createTypeInfo("float32", {
+typeInfosByName["float32"] = createTypeInfo("float32", {
 	Default = 0,
 
 	Size = 4,
@@ -468,7 +466,7 @@ typeInfosByName['float32'] = createTypeInfo("float32", {
 --#tag integer
 
 --#tag int8
-typeInfosByName['int8'] = createTypeInfo("int8", {
+typeInfosByName["int8"] = createTypeInfo("int8", {
 	Default = 0,
 
 	Size = 1,
@@ -484,7 +482,7 @@ typeInfosByName['int8'] = createTypeInfo("int8", {
 })
 
 --#tag int16
-typeInfosByName['int16'] = createTypeInfo("int16", {
+typeInfosByName["int16"] = createTypeInfo("int16", {
 	Default = 0,
 
 	Size = 2,
@@ -499,7 +497,7 @@ typeInfosByName['int16'] = createTypeInfo("int16", {
 	TypeAnnotation = "number",
 })
 --#tag int32
-typeInfosByName['int32'] = createTypeInfo("int32", {
+typeInfosByName["int32"] = createTypeInfo("int32", {
 	Default = 0,
 	Size = 4, -- 32비트 정수이므로 4바이트
 
@@ -516,7 +514,7 @@ typeInfosByName['int32'] = createTypeInfo("int32", {
 
 --#tag uint
 --#tag uint8
-typeInfosByName['uint8'] = createTypeInfo("uint8", {
+typeInfosByName["uint8"] = createTypeInfo("uint8", {
 	Default = 0,
 	Size = 1, -- 8비트 부호 없는 정수이므로 1바이트
 
@@ -532,7 +530,7 @@ typeInfosByName['uint8'] = createTypeInfo("uint8", {
 })
 
 --#tag uint16
-typeInfosByName['uint16'] = createTypeInfo("uint16", {
+typeInfosByName["uint16"] = createTypeInfo("uint16", {
 	Default = 0,
 	Size = 2, -- 16비트 부호 없는 정수이므로 2바이트
 
@@ -548,7 +546,7 @@ typeInfosByName['uint16'] = createTypeInfo("uint16", {
 })
 
 --#tag uint32
-typeInfosByName['uint32'] = createTypeInfo("uint32", {
+typeInfosByName["uint32"] = createTypeInfo("uint32", {
 	Default = 0,
 	Size = 4, -- 32비트 부호 없는 정수이므로 4바이트
 
@@ -564,7 +562,7 @@ typeInfosByName['uint32'] = createTypeInfo("uint32", {
 })
 
 --#tag Vector3
-typeInfosByName['Vector3'] = createTypeInfo("Vector3", {
+typeInfosByName["Vector3"] = createTypeInfo("Vector3", {
 	Default = Vector3.zero,
 	IsRobloxType = true,
 	Size = 12, -- float32 3개(x,y,z)이므로 12바이트 (4*3)
@@ -583,7 +581,7 @@ typeInfosByName['Vector3'] = createTypeInfo("Vector3", {
 })
 
 --#tag Color3
-typeInfosByName['Color3'] = createTypeInfo("Color3", {
+typeInfosByName["Color3"] = createTypeInfo("Color3", {
 	Default = Color3.fromRGB(255, 255, 255),
 	IsRobloxType = true,
 	Size = 12, -- float32(R,G,B) 3개 = 12바이트
@@ -602,7 +600,7 @@ typeInfosByName['Color3'] = createTypeInfo("Color3", {
 })
 
 --#tag Color3uint8
-typeInfosByName['Color3uint8'] = createTypeInfo("Color3uint8", {
+typeInfosByName["Color3uint8"] = createTypeInfo("Color3uint8", {
 	Default = Color3.fromRGB(255, 255, 255),
 	Size = 3, -- R,G,B 각각 1바이트(0~255)
 
@@ -613,11 +611,7 @@ typeInfosByName['Color3uint8'] = createTypeInfo("Color3uint8", {
 		buffer.writeu8(b, offset + 2, math.floor(value.B * 255 + 0.5))
 	end,
 	Deserialize = function(b, offset)
-		return Color3.fromRGB(
-			buffer.readu8(b, offset),
-			buffer.readu8(b, offset + 1),
-			buffer.readu8(b, offset + 2)
-		)
+		return Color3.fromRGB(buffer.readu8(b, offset), buffer.readu8(b, offset + 1), buffer.readu8(b, offset + 2))
 	end,
 
 	TypeCheck = "Color3",
@@ -625,7 +619,7 @@ typeInfosByName['Color3uint8'] = createTypeInfo("Color3uint8", {
 })
 
 --#tag NumberSequence
-typeInfosByName['NumberSequence'] = createTypeInfo("NumberSequence", {
+typeInfosByName["NumberSequence"] = createTypeInfo("NumberSequence", {
 	Default = NumberSequence.new(0),
 	IsRobloxType = true,
 	Size = "Undefined", -- 키포인트 개수에 따라 달라짐
@@ -665,7 +659,7 @@ typeInfosByName['NumberSequence'] = createTypeInfo("NumberSequence", {
 })
 
 --#tag ColorSequence
-typeInfosByName['ColorSequence'] = createTypeInfo("ColorSequence", {
+typeInfosByName["ColorSequence"] = createTypeInfo("ColorSequence", {
 	Default = ColorSequence.new(Color3.new(1, 1, 1)),
 	IsRobloxType = true,
 	Size = "Undefined", -- 마찬가지로 키포인트 개수에 따라 달라짐
@@ -710,7 +704,7 @@ typeInfosByName['ColorSequence'] = createTypeInfo("ColorSequence", {
 })
 
 --#tag NumberRange
-typeInfosByName['NumberRange'] = createTypeInfo("NumberRange", {
+typeInfosByName["NumberRange"] = createTypeInfo("NumberRange", {
 	Default = NumberRange.new(0),
 	IsRobloxType = true,
 	Size = 8, -- float32 2개 = 8바이트
@@ -727,7 +721,7 @@ typeInfosByName['NumberRange'] = createTypeInfo("NumberRange", {
 })
 
 --#tag Vector2
-typeInfosByName['Vector2'] = createTypeInfo("Vector2", {
+typeInfosByName["Vector2"] = createTypeInfo("Vector2", {
 	Default = Vector2.zero,
 	IsRobloxType = true,
 	Size = 8, -- float32 2개 = 8바이트
@@ -744,7 +738,7 @@ typeInfosByName['Vector2'] = createTypeInfo("Vector2", {
 })
 
 --#tag UDim
-typeInfosByName['UDim'] = createTypeInfo("UDim", {
+typeInfosByName["UDim"] = createTypeInfo("UDim", {
 	Default = UDim.new(),
 	IsRobloxType = true,
 	Size = 8, -- float32 1개 + int32 1개 = 8바이트
@@ -761,7 +755,7 @@ typeInfosByName['UDim'] = createTypeInfo("UDim", {
 })
 
 --#tag UDim2
-typeInfosByName['UDim2'] = createTypeInfo("UDim2", {
+typeInfosByName["UDim2"] = createTypeInfo("UDim2", {
 	Default = UDim2.new(),
 	IsRobloxType = true,
 	Size = 16, -- (float32+int32) * 2 = 16바이트
@@ -850,7 +844,7 @@ do
 		return CFrame.new(x, y, z, qx, qy, qz, qw)
 	end
 
-	typeInfosByName['CFrame'] = createTypeInfo("CFrame", {
+	typeInfosByName["CFrame"] = createTypeInfo("CFrame", {
 		Default = CFrame.identity,
 		IsRobloxType = true,
 		-- 정렬: float32 * 3 + 1= 12 + 1 = 13
@@ -886,7 +880,7 @@ do
 	})
 
 	--#tag CFrameList
-	typeInfosByName['CFrameList'] = createTypeInfo("CFrameList", {
+	typeInfosByName["CFrameList"] = createTypeInfo("CFrameList", {
 		Default = {},
 		TypeAnnotation = "{CFrame}",
 		Size = "Undefined",
@@ -912,7 +906,7 @@ do
 end
 
 --#tag Font
-typeInfosByName['Font'] = createTypeInfo("Font", {
+typeInfosByName["Font"] = createTypeInfo("Font", {
 	Default = Enum.Font.Arial,
 	IsRobloxType = true,
 	Size = "Undefined", -- Family 문자열 길이에 따라 달라짐 + Weight/Style 비트
@@ -944,7 +938,7 @@ typeInfosByName['Font'] = createTypeInfo("Font", {
 })
 
 --#tag Instance
-typeInfosByName['Instance'] = createTypeInfo("Instance", {
+typeInfosByName["Instance"] = createTypeInfo("Instance", {
 	Default = nil,
 	IsRobloxType = true,
 	Size = 4,
@@ -971,7 +965,7 @@ typeInfosByName['Instance'] = createTypeInfo("Instance", {
 })
 
 --#tag nil
-typeInfosByName['nil'] = createTypeInfo("nil", {
+typeInfosByName["nil"] = createTypeInfo("nil", {
 	Default = nil,
 	IsLuauType = true,
 	Size = 0,
@@ -989,7 +983,7 @@ do
 		return 2 + keyInfo.GetSize(key) + 2 + valueInfo.GetSize(value)
 	end
 
-	typeInfosByName['table'] = createTypeInfo("table", {
+	typeInfosByName["table"] = createTypeInfo("table", {
 		Default = {},
 		IsLuauType = true,
 		Size = "Undefined",
@@ -1083,7 +1077,7 @@ do
 		end
 	end
 
-	typeInfosByName['EnumItem'] = createTypeInfo("EnumItem", {
+	typeInfosByName["EnumItem"] = createTypeInfo("EnumItem", {
 		Default = Enum.KeyCode.X,
 		IsEnum = true,
 		IsRobloxType = true,
@@ -1099,248 +1093,109 @@ do
 	})
 end
 
---#region Enum
+--#tag CustomEnum
+do
+	local function resolveCustomEnumId(value)
+		if typeof(value) ~= "table" then
+			error(`CustomEnum must be a table, got "{typeof(value)}".`)
+		end
 
---[[
-	Serialization methods for Enum or custom lists
-]]
-local function createEnumType(enumType: string, itemNames: { string }): TypeInfo
-	assert(itemNames, `Enum Data Type must have ItemNames.`)
-	assert(TableUtil.isArray(itemNames), `ItemNames must be an array.`)
-	for i, itemName in itemNames do
-		assert(typeof(itemName) == "string", `ItemName must be a string, got {typeof(itemName)}.`)
+		local id
+		local getEnumId = value.GetEnumId
+		if typeof(getEnumId) == "function" then
+			id = getEnumId(value)
+		else
+			id = value.Id
+		end
+
+		if typeof(id) ~= "number" then
+			error(`CustomEnum.Id must be a number.`)
+		end
+		return id
 	end
 
-	local length = #itemNames
-	assert(length > 1, `ItemNames must have at least 2 items, got {length} items.`)
+	local function resolveCustomEnumItemIds(value)
+		if typeof(value) ~= "table" then
+			error(`CustomEnumItem must be a table, got "{typeof(value)}".`)
+		end
 
-	--local bitSize = math.ceil(math.log(length,2))
-	--local byteSize = math.ceil(bitSize / 8)
+		local enumId
+		local itemId
 
-	local params = {}
-	params.Default = itemNames[1]
-	params.TypeAnnotation = itemNames
-	params.IsEnum = true
+		local getEnumId = value.GetEnumId
+		if typeof(getEnumId) == "function" then
+			enumId = getEnumId(value)
+		else
+			enumId = value.EnumId
+		end
 
-	params.Size = 1
+		local getItemId = value.GetItemId
+		if typeof(getItemId) == "function" then
+			itemId = getItemId(value)
+		else
+			itemId = value.ItemId
+		end
 
-	local indexesByName = {}
-	for i = 1, length do
-		indexesByName[itemNames[i]] = i
+		if typeof(enumId) ~= "number" then
+			error(`CustomEnumItem.EnumId must be a number.`)
+		end
+		if typeof(itemId) ~= "number" then
+			error(`CustomEnumItem.ItemId must be a number.`)
+		end
+
+		return enumId, itemId
 	end
 
-	params.TypeCheck = function(name)
-		return indexesByName[name] ~= nil
-	end
+	typeInfosByName["CustomEnum"] = createTypeInfo("CustomEnum", {
+		Default = { Id = 0 },
+		IsEnum = true,
+		Size = 2,
+		Serialize = function(b, offset, value)
+			buffer.writeu16(b, offset, resolveCustomEnumId(value))
+		end,
+		Deserialize = function(b, offset)
+			return { Id = buffer.readu16(b, offset) }
+		end,
+		TypeCheck = function(value)
+			if typeof(value) ~= "table" then
+				return false
+			end
+			if typeof(value.GetEnumId) == "function" then
+				return true
+			end
+			return typeof(value.Id) == "number"
+		end,
+		TypeAnnotation = "CustomEnum",
+	})
 
-	params.Serialize = function(b, offset, name)
-		buffer.writeu8(
-			b,
-			offset,
-			(indexesByName[name] or error(`Invalid Enum Name "{name}" for EnumType "{enumType}".`))
-				- 1
-		)
-	end
-	params.Deserialize = function(b, offset)
-		return itemNames[buffer.readu8(b, offset) + 1]
-	end
+	typeInfosByName["CustomEnumItem"] = createTypeInfo("CustomEnumItem", {
+		Default = { EnumId = 0, ItemId = 0 },
+		IsEnum = true,
+		Size = 4,
+		Serialize = function(b, offset, value)
+			local enumId, itemId = resolveCustomEnumItemIds(value)
+			buffer.writeu16(b, offset, enumId)
+			buffer.writeu16(b, offset + 2, itemId)
+		end,
+		Deserialize = function(b, offset)
+			return {
+				EnumId = buffer.readu16(b, offset),
+				ItemId = buffer.readu16(b, offset + 2),
+			}
+		end,
+		TypeCheck = function(value)
+			if typeof(value) ~= "table" then
+				return false
+			end
 
-	return createTypeInfo(enumType, params)
+			local hasEnumId = typeof(value.GetEnumId) == "function" or typeof(value.EnumId) == "number"
+			local hasItemId = typeof(value.GetItemId) == "function" or typeof(value.ItemId) == "number"
+			return hasEnumId and hasItemId
+		end,
+		TypeAnnotation = "CustomEnumItem",
+	})
 end
 
---#tag EasingStyle
-local easingStyles = {
-	"Linear",
-	"Quad",
-	"Cubic",
-	"Quart",
-	"Quint",
-	"Sine",
-	"Expo",
-	"Circ",
-	"Elastic",
-	"Back",
-	"Bounce",
-}
-
-typeInfosByName['EasingStyle'] = createEnumType("EasingStyle", easingStyles)
-
---#tag InterpolationMode
-typeInfosByName['InterpolationMode'] = createEnumType(
-	"InterpolationMode",
-	TableUtil.merge(easingStyles, {
-		"Constant",
-		"Bezier",
-	})
-)
-
---#tag EasingDirection
-typeInfosByName['EasingDirection'] = createEnumType("EasingDirection", {
-	"In",
-	"Out",
-	"InOut",
-})
-
---#tag RotationOrder
-typeInfosByName['RotationOrder'] = createEnumType("RotationOrder", {
-	"XYZ",
-	"XZY",
-	"YZX",
-	"YXZ",
-	"ZXY",
-	"ZYX",
-})
-
---#tag MaterialId
-typeInfosByName['MaterialId'] = createEnumType("MaterialId", {
-	"Plastic",
-	"Wood",
-	"Slate",
-	"Concrete",
-	"CorrodedMetal",
-	"DiamondPlate",
-	"Foil",
-	"Grass",
-	"Ice",
-	"Marble",
-	"Granite",
-	"Brick",
-	"Pebble",
-	"Sand",
-	"Fabric",
-	"SmoothPlastic",
-	"Metal",
-	"WoodPlanks",
-	"Cobblestone",
-	"Air",
-	"Water",
-	"Rock",
-	"Glacier",
-	"Snow",
-	"Sandstone",
-	"Mud",
-	"Basalt",
-	"Ground",
-	"CrackedLava",
-	"Neon",
-	"Glass",
-	"Asphalt",
-	"LeafyGrass",
-	"Salt",
-	"Limestone",
-	"Pavement",
-	"ForceField",
-	"Cardboard",
-	"Carpet",
-	"CeramicTiles",
-	"ClayRoofTiles",
-	"RoofShingles",
-	"Leather",
-	"Plaster",
-	"Rubber",
-})
-
---#tag PartType
-typeInfosByName['PartType'] = createEnumType("PartType", {
-	"Ball",
-	"Block",
-	"Cylinder",
-	"Wedge",
-	"CornerWedge",
-})
-
---#tag NormalId
-typeInfosByName['NormalId'] = createEnumType("NormalId", {
-	"Top",
-	"Bottom",
-	"Back",
-	"Front",
-	"Right",
-	"Left",
-})
-
---#tag ActuatorType
-typeInfosByName['ActuatorType'] = createEnumType("ActuatorType", {
-	"None",
-	"Motor",
-	"Servo",
-})
-
---#tag TextureMode
-typeInfosByName['TextureMode'] = createEnumType("TextureMode", {
-	"Stretch",
-	"Wrap",
-	"Static",
-})
---#tag ParticleOrientation
-typeInfosByName['ParticleOrientation'] = createEnumType("ParticleOrientation", {
-	"FacingCamera",
-	"FacingCameraWorldUp",
-	"VelocityParallel",
-	"VelocityPerpendicular",
-})
-
---#tag ParticleEmitterShape
-typeInfosByName['ParticleEmitterShape'] = createEnumType("ParticleEmitterShape", {
-	"Box",
-	"Sphere",
-	"Cylinder",
-	"Disc",
-})
-
---#tag ParticleEmitterShapeStyle
-typeInfosByName['ParticleEmitterShapeStyle'] = createEnumType("ParticleEmitterShapeStyle", {
-	"Volume",
-	"Surface",
-})
-
---#tag ParticleEmitterShapeInOut
-typeInfosByName['ParticleEmitterShapeInOut'] = createEnumType("ParticleEmitterShapeInOut", {
-	"Outward",
-	"Inward",
-	"InAndOut",
-})
-
---#tag ParticleFlipbookLayout
-typeInfosByName['ParticleFlipbookLayout'] = createEnumType("ParticleFlipbookLayout", {
-	"None",
-	"Grid2x2",
-	"Grid4x4",
-	"Grid8x8",
-})
-
---#tag ParticleFlipbookMode
-typeInfosByName['ParticleFlipbookMode'] = createEnumType("ParticleFlipbookMode", {
-	"Loop",
-	"OneShot",
-	"PingPong",
-	"Random",
-})
-
---#tag AutomaticSize
-typeInfosByName['AutomaticSize'] = createEnumType("AutomaticSize", {
-	"None",
-	"X",
-	"Y",
-	"XY",
-})
-
---#tag LineJoinMode
-typeInfosByName['LineJoinMode'] = createEnumType("LineJoinMode", {
-	"Round",
-	"Bevel",
-	"Miter",
-})
-
---#tag Face2D
-typeInfosByName['Face2D'] = createEnumType("Face2D", {
-	"Left",
-	"Right",
-	"Top",
-	"Bottom",
-})
-
---#endregion Enum
 --#region Others
 
 --#endregion Others
@@ -1349,8 +1204,6 @@ typeInfosByName['Face2D'] = createEnumType("Face2D", {
 type TypeInfosByName = typeof(typeInfosByName)
 
 export type TypeName = keyof<typeof(typeInfosByName)>
-
-
 
 --#region Functions
 do
