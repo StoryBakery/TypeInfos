@@ -1,0 +1,97 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    runs-on: windows-latest
+    env:
+      TEST_PROJECT_FILE: default.project.json
+      TEST_PLACE_FILE: .test-place.rbxlx
+      TEST_ENTRY_FILE: tests/RunTests.luau
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup rokit
+        uses: CompeyDev/setup-rokit@v0.1.2
+
+      - name: trust rokit tools
+        run: rokit trust lune-org/lune rojo-rbx/rojo rojo-rbx/run-in-roblox pesde-pkg/pesde
+
+      - name: install rokit tools
+        run: rokit install
+
+      - name: install dependencies
+        run: pesde install
+
+      - name: compute test preconditions
+        id: preconditions
+        shell: pwsh
+        run: |
+          $hasSecrets = ("${{ secrets.ROBLOSECURITY }}" -ne "" -and "${{ secrets.RBXID }}" -ne "")
+          if ($env:ACT -eq "true") {
+            $hasSecrets = $false
+          }
+          "has_secrets=$($hasSecrets.ToString().ToLower())" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: skip run-in-roblox tests
+        if: ${{ steps.preconditions.outputs.has_secrets != 'true' }}
+        run: echo "Skipping run-in-roblox tests (ACT mode or missing secrets)."
+
+      - name: setup studio cookies
+        if: ${{ steps.preconditions.outputs.has_secrets == 'true' }}
+        shell: pwsh
+        run: |
+          reg add "HKCU\Software\RobloxStudioBrowser\roblox.com" /t REG_SZ /v .RBXID /d "${{ secrets.RBXID }}" /f
+
+      - name: install roblox studio
+        if: ${{ steps.preconditions.outputs.has_secrets == 'true' }}
+        uses: OrbitalOwen/roblox-win-installer-action@1.1
+        with:
+          cookie: ${{ secrets.ROBLOSECURITY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: run tests
+        if: ${{ steps.preconditions.outputs.has_secrets == 'true' }}
+        run: lune run scripts/run_tests.luau
+
+  act-local:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: act smoke checks
+        if: ${{ env.ACT == 'true' }}
+        run: |
+          test -f default.project.json
+          test -f tests/RunTests.luau
+          test -f src/init.luau
+
+      - name: install rokit
+        if: ${{ env.ACT != 'true' }}
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/rojo-rbx/rokit/main/scripts/install.sh | bash
+          echo "$HOME/.rokit/bin" >> $GITHUB_PATH
+
+      - name: trust rokit tools
+        if: ${{ env.ACT != 'true' }}
+        run: rokit trust lune-org/lune rojo-rbx/rojo rojo-rbx/run-in-roblox pesde-pkg/pesde
+
+      - name: install rokit tools
+        if: ${{ env.ACT != 'true' }}
+        run: rokit install
+
+      - name: install dependencies
+        if: ${{ env.ACT != 'true' }}
+        run: pesde install
+
+      - name: build place
+        if: ${{ env.ACT != 'true' }}
+        run: rojo build default.project.json -o .test-place.rbxlx

@@ -1,5 +1,5 @@
 name = "storybakery/type_infos"
-version = "0.1.1"
+version = "0.1.0"
 license = "MIT"
 includes = [
     "pesde.toml",
@@ -19,6 +19,9 @@ build_files = ["src"]
 [indices]
 default = "https://github.com/pesde-pkg/index"
 
+[wally_indices]
+default = "https://github.com/UpliftGames/wally-index"
+
 [scripts]
 roblox_sync_config_generator = ".pesde/scripts/roblox_sync_config_generator.luau"
 sourcemap_generator = ".pesde/scripts/sourcemap_generator.luau"
@@ -28,8 +31,9 @@ scripts = { name = "pesde/scripts_rojo", version = "^0.2.0", target = "lune" }
 rojo = { name = "pesde/rojo", version = "^7.5.1", target = "lune" }
 
 [dependencies]
-ReplicatedInstanceId = { repo = "StoryBakery/ReplicatedInstanceId", rev = "main" }
-TableUtil = { repo = "StoryBakery/TableUtil", rev = "main" }
+ReplicatedInstanceId = { repo = "StoryBakery/ReplicatedInstanceId", rev = "v0.1.0" }
+TableUtil = { repo = "StoryBakery/TableUtil", rev = "v0.1.0" }
+msgpack-luau = { wally = "cipharius/msgpack-luau", version = "^0.3.0" }
 
 [engines]
 pesde = "^0.7.0"

@@ -130,7 +130,7 @@ result = [{ name = "lukadev_0/result", version = "^1.2.1", index = "https://gith
 unzip = [{ name = "0x5eal/unzip", version = "^0.2.0", index = "https://github.com/pesde-pkg/index", target = "luau" }, "standard"]
 
 [graph."storybakery/replicated_instance_id@0.1.0 roblox"]
-direct = ["ReplicatedInstanceId", { repo = "https://github.com/StoryBakery/ReplicatedInstanceId", rev = "main" }, "standard"]
+direct = ["ReplicatedInstanceId", { repo = "https://github.com/StoryBakery/ReplicatedInstanceId", rev = "v0.1.0" }, "standard"]
 
 [graph."storybakery/replicated_instance_id@0.1.0 roblox".dependencies]
 base91 = ["wally#dekkonot/base91@1.1.0 roblox", "standard"]
@@ -139,7 +139,7 @@ promise = ["wally#evaera/promise@4.0.0 roblox", "standard"]
 [graph."storybakery/replicated_instance_id@0.1.0 roblox".pkg_ref]
 ref_ty = "git"
 repo = "https://github.com/StoryBakery/ReplicatedInstanceId"
-tree_id = "6fb85b5f1025335ad92796819074eb4a1b5aa282"
+tree_id = "3792dd0f8ce7f232574c82c1d6b4d230d1b5fcfa"
 new_structure = true
 
 [graph."storybakery/replicated_instance_id@0.1.0 roblox".pkg_ref.dependencies]
@@ -149,17 +149,27 @@ rojo = [{ name = "pesde/rojo", version = "^7.5.1", index = "https://github.com/p
 scripts = [{ name = "pesde/scripts_rojo", version = "^0.2.0", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
 
 [graph."storybakery/table_util@0.1.0 roblox"]
-direct = ["TableUtil", { repo = "https://github.com/StoryBakery/TableUtil", rev = "main" }, "standard"]
+direct = ["TableUtil", { repo = "https://github.com/StoryBakery/TableUtil", rev = "v0.1.0" }, "standard"]
 
 [graph."storybakery/table_util@0.1.0 roblox".pkg_ref]
 ref_ty = "git"
 repo = "https://github.com/StoryBakery/TableUtil"
-tree_id = "8e558b1fd551a68678d5be7a255d395d5dccfae7"
+tree_id = "171b8574d8ea4b33b5ddf5e12393da721ba12f49"
 new_structure = true
 
 [graph."storybakery/table_util@0.1.0 roblox".pkg_ref.dependencies]
 rojo = [{ name = "pesde/rojo", version = "^7.5.1", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
 scripts = [{ name = "pesde/scripts_rojo", version = "^0.2.0", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
+
+[graph."wally#cipharius/msgpack-luau@0.3.0 roblox"]
+direct = ["msgpack-luau", { wally = "wally#cipharius/msgpack-luau", version = "^0.3.0", index = "default" }, "standard"]
+
+[graph."wally#cipharius/msgpack-luau@0.3.0 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#cipharius/msgpack-luau@0.3.0 roblox".pkg_ref.dependencies]
+TestEZ = [{ wally = "wally#roblox/testez", version = ">=0.4.1, <0.5.0", index = "https://github.com/UpliftGames/wally-index" }, "dev"]
 
 [graph."wally#dekkonot/base91@1.1.0 roblox".pkg_ref]
 ref_ty = "wally"
